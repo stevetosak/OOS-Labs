@@ -1,0 +1,17 @@
+version : '3.8'
+
+services:
+  tcp_server:
+    build: ./server
+    networks:
+      - skynet-tcp
+    image: tcp-client_server-tcp_server:latest
+  tcp_client:
+    build: ./client
+    image: tcp-client_server-tcp_client:latest
+    networks:
+      - skynet-tcp
+
+networks:
+  skynet-tcp:
+    driver: bridge

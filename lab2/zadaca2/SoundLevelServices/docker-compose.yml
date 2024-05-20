@@ -1,0 +1,18 @@
+version: '3'
+services:
+  soundlevelmeter:
+    build: ./sensor-container
+    volumes: 
+      - ./resources:/resources
+    environment:
+      - SOUND_DATA_PATH=/resources/soundlevel.txt
+    restart: unless-stopped
+
+  soundlevelmonitor:
+    build: ./monitor-container
+    environment: 
+      - AVG_POLLUTION_PATH=/resources/noisepollution.txt
+      - SOUND_DATA_PATH=/resources/soundlevel.txt
+    volumes:
+    - ./resources:/resources
+    restart: unless-stopped 
