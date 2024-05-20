@@ -17,7 +17,7 @@ public class TcpClient extends Thread {
 
     String getRandomMessage() {
         Random rnd = new Random();
-        if (rnd.nextDouble() < 0.05) {
+        if (rnd.nextDouble() < 0.1) {
             return messages[0];
         } else {
             int idx = 1 + rnd.nextInt(messages.length - 1);
@@ -32,7 +32,7 @@ public class TcpClient extends Thread {
             socket = new Socket(serverAddress, serverPort);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            if (new Random().nextDouble() < 0.95)
+            if (new Random().nextDouble() < 0.90)
                 out.write("login");
             else
                 out.write("Salatiranje brate");

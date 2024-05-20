@@ -20,17 +20,15 @@ public class UdpServer extends Thread {
             try {
                 socket.receive(p);
                 String message = new String(p.getData(),0,p.getLength());
-                buffer = message.getBytes();
 
                 if(message.equals("login")) {
-                    System.out.println("Logged in.");
-                    prevMsg = "login";
+                    message = "Logged in";
                 }
                 else if (message.equals("logout")) {
-                    System.out.println("Logged out.");
+                    message = "Logged out";
                 }
                 else System.out.println("Server - Received message: " + message);
-
+                buffer = message.getBytes();
                 p = new DatagramPacket(buffer,buffer.length,p.getAddress(),p.getPort());
 
                 socket.send(p);

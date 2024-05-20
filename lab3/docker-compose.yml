@@ -1,0 +1,28 @@
+version : '3.8'
+
+services:
+  tcp_server:
+    build: ./Tcp-Client_Server/server
+    networks:
+      - skynet-tcp
+    image: tcp-client_server-tcp_server:latest
+  tcp_client:
+    build: ./Tcp-Client_Server/client
+    image: tcp-client_server-tcp_client:latest
+    networks:
+      - skynet-tcp
+  udp_server:
+    build: ./UDP_Client_Server/server
+    networks:
+      - skynet-udp
+  udp_client:
+      build: ./UDP_Client_Server/client 
+      networks:
+        - skynet-udp
+
+
+networks:
+  skynet-tcp:
+    driver: bridge
+  skynet-udp:
+    driver: bridge

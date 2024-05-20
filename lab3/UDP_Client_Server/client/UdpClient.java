@@ -6,6 +6,7 @@ import java.util.Random;
 public class UdpClient extends Thread {
     private final int port;
     private final String serverName;
+    private boolean isLoggedIn = false;
 
     String [] messages = new String[]{"login","logout","Zdravo","Resen","Cao"};
 
@@ -16,21 +17,25 @@ public class UdpClient extends Thread {
 
     @Override
     public void run() {
+
         while (true) {
             byte[] buffer;
             try (DatagramSocket socket = new DatagramSocket()){
-                InetAddress addr = InetAddress.getByName(serverName);
                 Random rnd = new Random();
                 int idx = rnd.nextInt(messages.length);
                 String msg = messages[idx];
-                if (msg.equals("logout")) break;
-                buffer = msg.getBytes();
 
+                buffer = msg.getBytes();
+                InetAddress addr = InetAddress.getByName(serverName);
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length, addr, port);
                 socket.send(packet);
+
                 buffer = new byte[128];
                 packet = new DatagramPacket(buffer, buffer.length, addr, port);
                 socket.receive(packet);
+                String receivedMessage = new String(packet.getData(),0, packet.getLength());
+                System.out.println(receivedMessage);
+                if (msg.equals("logout")) break;
 
             } catch (RuntimeException | IOException e) {
                 throw new RuntimeException(e);
@@ -45,7 +50,7 @@ public class UdpClient extends Thread {
     }
 
     public static void main(String[] args) {
-        UdpClient client = new UdpClient(6633,"localhost");
+        UdpClient client = new UdpClient(6633,args[0]);
         client.start();
     }
 }

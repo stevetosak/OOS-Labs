@@ -1,8 +1,10 @@
 FROM openjdk:17-slim
 
-RUN javac ../src/UdpClient
+WORKDIR /app
 
-WORKDIR ../out/production/UDP_Client_Server
+COPY . /app
 
-CMD ["java", "UdpClient"]
+RUN javac -d ./build UdpClient.java
+
+CMD ["java", "-cp","./build","UdpClient", "udp_server"]
 
